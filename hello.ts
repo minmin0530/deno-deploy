@@ -27,7 +27,7 @@ async function handleHttp(conn: Deno.Conn) {
       // If File instance is a directory, lookup for an index.html
       if (stat.isDirectory) {
         file.close();
-        const filePath = path.join("./", filepath, "index.html");
+        const filePath = path.join(".", filepath, "index.html");
         file = await Deno.open(filePath, { read: true });
       }
     } catch {
