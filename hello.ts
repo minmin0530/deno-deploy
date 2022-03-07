@@ -28,6 +28,7 @@ async function handleHttp(conn: Deno.Conn) {
       if (stat.isDirectory) {
         file.close();
         const filePath = path.join(".", filepath, "index.html");
+        console.log(filePath);
         file = await Deno.open(filePath, { read: true });
       }
     } catch {
