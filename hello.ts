@@ -25,6 +25,7 @@ async function handleHttp(conn: Deno.Conn) {
       const stat = await file.stat();
 
       // If File instance is a directory, lookup for an index.html
+      console.log(stat.isDirectory);
       if (stat.isDirectory) {
         file.close();
         const filePath = path.join(".", filepath, "index.html");
