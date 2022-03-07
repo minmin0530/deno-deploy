@@ -17,6 +17,7 @@ async function handleHttp(conn: Deno.Conn) {
     const url = new URL(requestEvent.request.url);
     const filepath = decodeURIComponent(url.pathname);
 
+    console.log(filepath);
     // Try opening the file
     let file;
     try {
