@@ -20,24 +20,24 @@ async function handleHttp(conn: Deno.Conn) {
     console.log(filepath);
     // Try opening the file
     let file;
-    try {
-      file = await Deno.open("." + filepath, { read: true });
-      const stat = await file.stat();
+    // try {
+      // file = await Deno.open("." + filepath, { read: true });
+      // const stat = await file.stat();
 
-      // If File instance is a directory, lookup for an index.html
-      console.log(stat.isDirectory);
-      // if (stat.isDirectory) {
-        file.close();
-        const filePath = path.join(".", filepath, "index.html");
-        console.log(filePath);
+      // // If File instance is a directory, lookup for an index.html
+      // console.log(stat.isDirectory);
+      // // if (stat.isDirectory) {
+      //   file.close();
+        // const filePath = path.join(".", filepath, "index.html");
+        // console.log(filePath);
         file = await Deno.open("./index.html", { read: true });
       // }
-    } catch {
-      // If the file cannot be opened, return a "404 Not Found" response
-      const notFoundResponse = new Response("404 Not Found", { status: 404 });
-      await requestEvent.respondWith(notFoundResponse);
-      return;
-    }
+    // } catch {
+    //   // If the file cannot be opened, return a "404 Not Found" response
+    //   const notFoundResponse = new Response("404 Not Found", { status: 404 });
+    //   await requestEvent.respondWith(notFoundResponse);
+    //   return;
+    // }
 
     // Build a readable stream so the file doesn't have to be fully loaded into
     // memory while we send it
