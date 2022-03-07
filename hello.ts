@@ -3,8 +3,8 @@ import * as path from "https://deno.land/std@0.128.0/path/mod.ts";
 import { readableStreamFromReader } from "https://deno.land/std@0.128.0/streams/mod.ts";
 
 // Start listening on port 8080 of localhost.
-const server = Deno.listen({ port: 8080 });
-console.log("File server running on http://localhost:8080/");
+const server = Deno.listen({ port: 8000 });
+console.log("File server running on http://localhost:8000/");
 
 for await (const conn of server) {
   handleHttp(conn);
