@@ -26,12 +26,12 @@ async function handleHttp(conn: Deno.Conn) {
 
       // If File instance is a directory, lookup for an index.html
       console.log(stat.isDirectory);
-      if (stat.isDirectory) {
+      // if (stat.isDirectory) {
         file.close();
         const filePath = path.join(".", filepath, "index.html");
         console.log(filePath);
-        file = await Deno.open(filePath, { read: true });
-      }
+        file = await Deno.open("./index.html", { read: true });
+      // }
     } catch {
       // If the file cannot be opened, return a "404 Not Found" response
       const notFoundResponse = new Response("404 Not Found", { status: 404 });
