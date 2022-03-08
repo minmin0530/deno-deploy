@@ -30,7 +30,15 @@ async function handleHttp(conn: Deno.Conn) {
       //   file.close();
         // const filePath = path.join(".", filepath, "index.html");
         // console.log(filePath);
-        file = await Deno.open("./index.html", { read: true });
+        if (filepath == "/") {
+          file = await Deno.open("./index.html", { read: true });
+        } else if (filepath == "/about") {
+          file = await Deno.open("./about.html", { read: true });
+        } else {
+          const notFoundResponse = new Response("404 Not Found", { status: 404 });
+          await requestEvent.respondWith(notFoundResponse);
+          return;
+        }
       // }
     // } catch {
     //   // If the file cannot be opened, return a "404 Not Found" response

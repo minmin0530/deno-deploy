@@ -36,6 +36,17 @@
                 flex-direction: column;
                 align-items: center;
             }
+            .key {
+                width: 140px;
+                text-align: right;
+            }
+            .element {
+                width: 140px;
+            }
+            .colon {
+                width: 30px;
+                text-align: center;
+            }
             footer {
                 font-size: 8px;
                 display: flex;
@@ -53,12 +64,21 @@
     </head>
     <body>
         <header>
-            <h1>continue-jump</h1>
+            <h1><a href="/">continue-jump</a></h1>
         </header>
         <article>
             <section>
-                <p>このサイトはdenoで構築しています。</p>
-                <a href="about">about</a>
+                <h2>about</h2>
+                <table>
+                    <tr><td class="key">job</td><td class="colon">:</td><td class="element">game creator</td></tr>
+                    <tr><td class="key">name</td><td class="colon">:</td><td class="element">izumi yoshiki</td></tr>
+                    <tr><td class="key">address</td><td class="colon">:</td><td class="element">ehime</td></tr>
+                    <tr><td class="key">birthday</td><td class="colon">:</td><td class="element">1981/05/30</td></tr>
+                </table>
+            </section>
+            <section>
+                <h2>skill</h2>
+                <p>swift, deno, node, mongodb</p>
             </section>
         </article>
         <footer>
