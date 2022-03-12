@@ -32,12 +32,14 @@ async function handleHttp(conn: Deno.Conn) {
         // console.log(filePath);
         if (filepath == "/") {
           file = await Deno.open("./index.html", { read: true });
-        } else if (filepath == "/about") {
-          file = await Deno.open("./about.html", { read: true });
         } else {
-          const notFoundResponse = new Response("404 Not Found", { status: 404 });
-          await requestEvent.respondWith(notFoundResponse);
-          return;
+          try {
+            file = await Deno.open("." + filepath + ".html", { read: true });
+          } catch {
+            const notFoundResponse = new Response("404 Not Found", { status: 404 });
+            await requestEvent.respondWith(notFoundResponse);
+            return;  
+          }
         }
       // }
     // } catch {
