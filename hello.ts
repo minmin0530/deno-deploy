@@ -29,7 +29,6 @@ async function handleHttp(conn: Deno.Conn) {
 
     console.log(filepath);
     // Try opening the file
-    let file;
     // try {
       // file = await Deno.open("." + filepath, { read: true });
       // const stat = await file.stat();
@@ -41,7 +40,7 @@ async function handleHttp(conn: Deno.Conn) {
         // const filePath = path.join(".", filepath, "index.html");
         // console.log(filePath);
         if (filepath == "/") {
-          file = await Deno.open("./index.html", { read: true });
+          const file = await Deno.open("./index.html", { read: true });
           (async () => {
             const output = await render(file, { name: "yoshiki" });
 
@@ -57,7 +56,7 @@ async function handleHttp(conn: Deno.Conn) {
           
         } else {
           try {
-            file = await Deno.open("." + filepath + ".html", { read: true });
+            const file = await Deno.open("." + filepath + ".html", { read: true });
 
             const readableStream = readableStreamFromReader(file);
 
