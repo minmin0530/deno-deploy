@@ -64,7 +64,11 @@ async function handleRequest(request: Request): Promise<Response> {
             const readableStream = readableStreamFromReader(file);
 
             // Build and send the response
-            return await new Response(readableStream);
+            return new Response(file, {
+              headers: {
+                "content-type": "text/html",
+              },
+            });
 //            await requestEvent.respondWith(response);
         
           // })();
@@ -77,12 +81,12 @@ async function handleRequest(request: Request): Promise<Response> {
             const account = db.collection<Account>("account");
             const all_users = await account.find({ name: { $ne: null } }).toArray();
   
-            // const responseData = new Response(JSON.parse(JSON.stringify(all_users)), {
-            //   status: 200,
-            //   headers: {
-            //     "content-type": "application/json",
-            //   },
-            // });
+            return new Response(JSON.parse(JSON.stringify(all_users)), {
+              status: 200,
+              headers: {
+                "content-type": "application/json",
+              },
+            });
             // const response = new Response(responseData);
             // await requestEvent.respondWith(response);
 
@@ -90,14 +94,18 @@ async function handleRequest(request: Request): Promise<Response> {
             try {
               const file = await Deno.open("." + filepath + ".html", { read: true });
 
-              const readableStream = readableStreamFromReader(file);
+//              const readableStream = readableStreamFromReader(file);
 
               // Build and send the response
-              return await new Response(readableStream);
-              // await requestEvent.respondWith(response);
+              return new Response(file, {
+                headers: {
+                  "content-type": "text/html",
+                },
+              });
+                // await requestEvent.respondWith(response);
           
             } catch {
-              return await new Response("404 Not Found", { status: 404 });
+              return new Response("404 Not Found", { status: 404 });
               // await requestEvent.respondWith(notFoundResponse);
               // return;  
             }
