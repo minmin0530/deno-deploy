@@ -22,6 +22,17 @@ for await (const conn of server) {
   handleHttp(conn);
 }
 
+function handler(_req: Request) {
+  const data = {
+    name: "yoshiki",
+  };
+  const body = JSON.stringify(data, null, 2);
+  return new Response(body, {
+    headers: { "content-type": "application/json; charset=utf-8" },
+  });
+}
+
+
 async function handleHttp(conn: Deno.Conn) {
   const httpConn = Deno.serveHttp(conn);
   for await (const requestEvent of httpConn) {
@@ -63,16 +74,15 @@ async function handleHttp(conn: Deno.Conn) {
             const account = db.collection<Account>("account");
             const all_users = await account.find({ name: { $ne: null } }).toArray();
   
-            
-            const responseData = new Response(JSON.parse(JSON.stringify(all_users)), {
-              status: 200,
-              headers: {
-                "content-type": "application/json",
-              },
-            });
-
-            const response = new Response(responseData);
-            await requestEvent.respondWith(response);
+            serve(handler);
+            // const responseData = new Response(JSON.parse(JSON.stringify(all_users)), {
+            //   status: 200,
+            //   headers: {
+            //     "content-type": "application/json",
+            //   },
+            // });
+            // const response = new Response(responseData);
+            // await requestEvent.respondWith(response);
 
           } else {
             try {
