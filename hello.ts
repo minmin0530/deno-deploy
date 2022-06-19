@@ -1,5 +1,3 @@
-const { cwd, stdout, copy } = Deno;
-import { renderFile } from "https://deno.land/x/dejs/mod.ts";
 import { serve } from "https://deno.land/std@0.114.0/http/server.ts";
 import * as path from "https://deno.land/std@0.128.0/path/mod.ts";
 import { readableStreamFromReader } from "https://deno.land/std@0.128.0/streams/mod.ts";
@@ -8,7 +6,10 @@ const client = new MongoClient();
 await client.connect(
   "mongodb://mongo:password@133.167.44.238:27017/?authSource=othello223&readPreference=primary&ssl=false&directConnection=true",
 );
-
+interface Account {
+  _id: ObjectId;
+  name: string;
+}
 
 
 
@@ -41,11 +42,15 @@ async function handleHttp(conn: Deno.Conn) {
         // const filePath = path.join(".", filepath, "index.html");
         // console.log(filePath);
         if (filepath == "/") {
-//          const file = await Deno.open("./index.ejs", { read: true });
+         const file = await Deno.open("./index.html", { read: true });
           // await (async () => {
-          const output = await renderFile(`${cwd()}/index.ejs`, { name: "yoshiki" });
+          // const output = await renderFile(`${cwd()}/index.ejs`, { name: "yoshiki" });
+          const db = client.database("othell223");
+          const account = db.collection<Account>("account");
+          const all_users = await account.find({ name: { $ne: null } }).toArray();
+          
 
-            const readableStream = readableStreamFromReader(output);
+            const readableStream = readableStreamFromReader(file);
 
             // Build and send the response
             const response = await new Response(readableStream);
