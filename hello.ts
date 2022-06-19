@@ -75,7 +75,7 @@ async function handleRequest(request: Request): Promise<Response> {
             const account = db.collection<Account>("account");
             const all_users = await account.find({ name: { $ne: null } }).toArray();
   
-            const body = JSON.stringify(all_users, null, 2);
+            const body = JSON.stringify(all_users[0], null, 2);
             return new Response(body, {
               headers: { "content-type": "application/json; charset=utf-8" },
             });
