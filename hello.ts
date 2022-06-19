@@ -15,12 +15,12 @@ interface Account {
 
 
 // Start listening on port 8080 of localhost.
-const server = Deno.listen({ port: 8000 });
-console.log("File server running on http://localhost:8000/");
+// const server = Deno.listen({ port: 8000 });
+// console.log("File server running on http://localhost:8000/");
 
-for await (const conn of server) {
-  handleHttp(conn);
-}
+// for await (const conn of server) {
+//   handleHttp(conn);
+// }
 
 function handler(_req: Request) {
   const data = {
@@ -32,15 +32,18 @@ function handler(_req: Request) {
   });
 }
 
+async function handleRequest(request: Request): Promise<Response> {
+  const { pathname } = new URL(request.url);
+  const filepath = decodeURIComponent(pathname);
 
-async function handleHttp(conn: Deno.Conn) {
-  const httpConn = Deno.serveHttp(conn);
-  for await (const requestEvent of httpConn) {
-    // Use the request pathname as filepath
-    const url = new URL(requestEvent.request.url);
-    const filepath = decodeURIComponent(url.pathname);
+// async function handleHttp(conn: Deno.Conn): Promise<Response>  {
+//   const httpConn = Deno.serveHttp(conn);
+//   for await (const requestEvent of httpConn) {
+//     // Use the request pathname as filepath
+//     const url = new URL(requestEvent.request.url);
+//     const filepath = decodeURIComponent(url.pathname);
 
-    console.log(filepath);
+//     console.log(filepath);
     // Try opening the file
     // try {
       // file = await Deno.open("." + filepath, { read: true });
@@ -61,8 +64,8 @@ async function handleHttp(conn: Deno.Conn) {
             const readableStream = readableStreamFromReader(file);
 
             // Build and send the response
-            const response = await new Response(readableStream);
-            await requestEvent.respondWith(response);
+            return await new Response(readableStream);
+//            await requestEvent.respondWith(response);
         
           // })();
           
@@ -74,7 +77,6 @@ async function handleHttp(conn: Deno.Conn) {
             const account = db.collection<Account>("account");
             const all_users = await account.find({ name: { $ne: null } }).toArray();
   
-            serve(handler);
             // const responseData = new Response(JSON.parse(JSON.stringify(all_users)), {
             //   status: 200,
             //   headers: {
@@ -91,13 +93,13 @@ async function handleHttp(conn: Deno.Conn) {
               const readableStream = readableStreamFromReader(file);
 
               // Build and send the response
-              const response = new Response(readableStream);
-              await requestEvent.respondWith(response);
+              return await new Response(readableStream);
+              // await requestEvent.respondWith(response);
           
             } catch {
-              const notFoundResponse = new Response("404 Not Found", { status: 404 });
-              await requestEvent.respondWith(notFoundResponse);
-              return;  
+              return await new Response("404 Not Found", { status: 404 });
+              // await requestEvent.respondWith(notFoundResponse);
+              // return;  
             }
           }
         }
@@ -111,7 +113,7 @@ async function handleHttp(conn: Deno.Conn) {
 
     // Build a readable stream so the file doesn't have to be fully loaded into
     // memory while we send it
-  }
+//  }
 }
 
-
+serve(handleRequest);
