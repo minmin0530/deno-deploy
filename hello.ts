@@ -66,7 +66,7 @@ async function handleRequest(request: Request): Promise<Response> {
             const readableStream = readableStreamFromReader(file);
 
             // Build and send the response
-            return await new Response(file, {
+            return new Response(readableStream, {
               status: 200,
               headers: {
                 "content-type": "text/html",
