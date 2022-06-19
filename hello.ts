@@ -24,8 +24,8 @@ async function handleRequest(request: Request): Promise<Response> {
     });
   } else if (filepath == "/favicon.ico") {
     const file = await Deno.open("./favicon.ico", { read: true });
-//    const readableStream = readableStreamFromReader(file);
-    return new Response(file, {
+    const readableStream = readableStreamFromReader(file);
+    return new Response(readableStream, {
       status: 200,
       headers: {
         "content-type": "image/x-icon",
