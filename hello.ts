@@ -45,7 +45,7 @@ async function handleHttp(conn: Deno.Conn) {
          const file = await Deno.open("./index.html", { read: true });
           // await (async () => {
           // const output = await renderFile(`${cwd()}/index.ejs`, { name: "yoshiki" });
-          const db = client.database("othell223");
+          const db = client.database("othello223");
           const account = db.collection<Account>("account");
           const all_users = await account.find({ name: { $ne: null } }).toArray();
           
