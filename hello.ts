@@ -22,15 +22,6 @@ interface Account {
 //   handleHttp(conn);
 // }
 
-function handler(_req: Request) {
-  const data = {
-    name: "yoshiki",
-  };
-  const body = JSON.stringify(data, null, 2);
-  return new Response(body, {
-    headers: { "content-type": "application/json; charset=utf-8" },
-  });
-}
 
 async function handleRequest(request: Request): Promise<Response> {
   const { pathname } = new URL(request.url);
@@ -84,12 +75,14 @@ async function handleRequest(request: Request): Promise<Response> {
             const account = db.collection<Account>("account");
             const all_users = await account.find({ name: { $ne: null } }).toArray();
   
-            return new Response(JSON.parse(JSON.stringify(all_users)), {
-              status: 200,
-              headers: {
-                "content-type": "application/json",
-              },
+            const data = {
+              name: "yoshiki",
+            };
+            const body = JSON.stringify(data, null, 2);
+            return new Response(body, {
+              headers: { "content-type": "application/json; charset=utf-8" },
             });
+
             // const response = new Response(responseData);
             // await requestEvent.respondWith(response);
 
