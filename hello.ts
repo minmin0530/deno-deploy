@@ -32,7 +32,7 @@ async function handleRequest(request: Request): Promise<Response> {
         "content-type": "image/x-icon",
       },
     });
-  } elss {
+  } else {
     if (filepath == "/get_account") {
       const db = client.database("othello223");
       const account = db.collection<Account>("account");
