@@ -22,7 +22,16 @@ async function handleRequest(request: Request): Promise<Response> {
         "content-type": "text/html",
       },
     });
-  } else {
+  } else if (filepath == "/favicon.ico") {
+    const file = await Deno.open("./favicon.ico", { read: true });
+//    const readableStream = readableStreamFromReader(file);
+    return new Response(file, {
+      status: 200,
+      headers: {
+        "content-type": "image/x-icon",
+      },
+    });
+  } elss {
     if (filepath == "/get_account") {
       const db = client.database("othello223");
       const account = db.collection<Account>("account");
