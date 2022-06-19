@@ -66,7 +66,7 @@ async function handleHttp(conn: Deno.Conn) {
             const responseData = new Response(all_users, {
               status: 200,
               headers: {
-                "content-type": "json",
+                "content-type": "application/json",
               },
             });
 
