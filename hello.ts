@@ -42,7 +42,7 @@ async function handleHttp(conn: Deno.Conn) {
         if (filepath == "/") {
           const file = await Deno.open("./index.ejs", { read: true });
           // await (async () => {
-          //   const output = await renderFile(file, { name: "yoshiki" });
+          const output = await renderFile(file, { name: "yoshiki" });
 
             const readableStream = readableStreamFromReader(file);
 
