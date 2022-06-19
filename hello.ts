@@ -1,6 +1,16 @@
+import { render } from "https://deno.land/x/dejs/mod.ts";
 import { serve } from "https://deno.land/std@0.114.0/http/server.ts";
 import * as path from "https://deno.land/std@0.128.0/path/mod.ts";
 import { readableStreamFromReader } from "https://deno.land/std@0.128.0/streams/mod.ts";
+import{ MongoClient } from "https://deno.land/x/mongo@v0.30.1/mod.ts";
+const client = new MongoClient();
+await client.connect(
+  "mongodb+srv://mongo:password@133.167.44.238:27017/othello223?authMechanism=SCRAM-SHA-1",
+);
+
+
+
+
 
 // Start listening on port 8080 of localhost.
 const server = Deno.listen({ port: 8000 });
@@ -32,9 +42,29 @@ async function handleHttp(conn: Deno.Conn) {
         // console.log(filePath);
         if (filepath == "/") {
           file = await Deno.open("./index.html", { read: true });
+          (async () => {
+            const output = await render(file, { name: "yoshiki" });
+
+            const readableStream = readableStreamFromReader(output);
+
+            // Build and send the response
+            const response = new Response(readableStream);
+            await requestEvent.respondWith(response);
+        
+          })();
+          
+
+          
         } else {
           try {
             file = await Deno.open("." + filepath + ".html", { read: true });
+
+            const readableStream = readableStreamFromReader(file);
+
+            // Build and send the response
+            const response = new Response(readableStream);
+            await requestEvent.respondWith(response);
+        
           } catch {
             const notFoundResponse = new Response("404 Not Found", { status: 404 });
             await requestEvent.respondWith(notFoundResponse);
@@ -51,11 +81,6 @@ async function handleHttp(conn: Deno.Conn) {
 
     // Build a readable stream so the file doesn't have to be fully loaded into
     // memory while we send it
-    const readableStream = readableStreamFromReader(file);
-
-    // Build and send the response
-    const response = new Response(readableStream);
-    await requestEvent.respondWith(response);
   }
 }
 
