@@ -1,4 +1,4 @@
-import { render } from "https://deno.land/x/dejs/mod.ts";
+import { renderFile } from "https://deno.land/x/dejs/mod.ts";
 import { serve } from "https://deno.land/std@0.114.0/http/server.ts";
 import * as path from "https://deno.land/std@0.128.0/path/mod.ts";
 import { readableStreamFromReader } from "https://deno.land/std@0.128.0/streams/mod.ts";
@@ -42,7 +42,7 @@ async function handleHttp(conn: Deno.Conn) {
         if (filepath == "/") {
           const file = await Deno.open("./index.ejs", { read: true });
           (async () => {
-            const output = await render(file, { name: "yoshiki" });
+            const output = await renderFile(file, { name: "yoshiki" });
 
             const readableStream = readableStreamFromReader(output);
 
