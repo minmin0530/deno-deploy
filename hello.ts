@@ -1,4 +1,4 @@
-import { serve } from "https://deno.land/std@0.114.0/http/server.ts";
+import { serve } from "https://deno.land/std@0.140.0/http/server.ts";
 import * as path from "https://deno.land/std@0.128.0/path/mod.ts";
 import { readableStreamFromReader } from "https://deno.land/std@0.128.0/streams/mod.ts";
 import{ MongoClient } from "https://deno.land/x/mongo@v0.30.1/mod.ts";
@@ -35,6 +35,8 @@ function handler(_req: Request) {
 async function handleRequest(request: Request): Promise<Response> {
   const { pathname } = new URL(request.url);
   const filepath = decodeURIComponent(pathname);
+
+  console.log(filepath);
 
 // async function handleHttp(conn: Deno.Conn): Promise<Response>  {
 //   const httpConn = Deno.serveHttp(conn);
