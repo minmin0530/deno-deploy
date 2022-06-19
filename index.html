@@ -51,7 +51,7 @@
             }
         </style>
         <script>
-            window.onload() {
+            window.onload = function() {
                 fetch("/get_accout").then( (res) => {res.json()} ).then( (data) => {
                     console.log(data);
                     const account = document.getElementById("account");
