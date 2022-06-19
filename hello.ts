@@ -5,7 +5,7 @@ import { readableStreamFromReader } from "https://deno.land/std@0.128.0/streams/
 import{ MongoClient } from "https://deno.land/x/mongo@v0.30.1/mod.ts";
 const client = new MongoClient();
 await client.connect(
-  "mongodb+srv://mongo:password@133.167.44.238:27017/othello223?authMechanism=SCRAM-SHA-1",
+  "mongodb://mongo:password@133.167.44.238:27017/?authSource=othello223&readPreference=primary&ssl=false&directConnection=true",
 );
 
 
