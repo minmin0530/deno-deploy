@@ -43,10 +43,10 @@ async function handleHttp(conn: Deno.Conn) {
           const file = await Deno.open("./index.ejs", { read: true });
           const output = await renderFile(file, { name: "yoshiki" });
 
-          const readableStream = readableStreamFromReader(output);
+          const readableStream = await readableStreamFromReader(output);
 
           // Build and send the response
-          const response = new Response(readableStream);
+          const response = await new Response(readableStream);
           await requestEvent.respondWith(response);
           
 
