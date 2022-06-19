@@ -50,6 +50,15 @@
                 text-decoration: none;
             }
         </style>
+        <script>
+            window.onload() {
+                fetch("/get_accout").then( (res) => {res.json()} ).then( (data) => {
+                    console.log(data);
+                    const account = document.getElementById("account");
+                    account.innerHTML = data.name;
+                });
+            }
+        </script>
     </head>
     <body>
         <header>
@@ -58,6 +67,7 @@
         <article>
             <section>
                 <p>このサイトはdenoで構築しています。</p>
+                <p>developed by <span id="account"></span></p>
                 <a href="about">about</a>
                 <a href="blog/todays_blog">todays blog</a>
                 <a href="blog/hello_blog">hello blog</a>

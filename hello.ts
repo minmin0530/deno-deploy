@@ -45,9 +45,6 @@ async function handleHttp(conn: Deno.Conn) {
          const file = await Deno.open("./index.html", { read: true });
           // await (async () => {
           // const output = await renderFile(`${cwd()}/index.ejs`, { name: "yoshiki" });
-          const db = client.database("othello223");
-          const account = db.collection<Account>("account");
-          const all_users = await account.find({ name: { $ne: null } }).toArray();
           
 
             const readableStream = readableStreamFromReader(file);
@@ -61,19 +58,36 @@ async function handleHttp(conn: Deno.Conn) {
 
           
         } else {
-          try {
-            const file = await Deno.open("." + filepath + ".html", { read: true });
+          if (filepath == "/get_account") {
+            const db = client.database("othello223");
+            const account = db.collection<Account>("account");
+            const all_users = await account.find({ name: { $ne: null } }).toArray();
+  
+            const responseData = new Response(all_users, {
+              status: 200,
+              headers: {
+                "content-type": "json",
+              },
+            });
 
-            const readableStream = readableStreamFromReader(file);
-
-            // Build and send the response
-            const response = new Response(readableStream);
+            const response = new Response(responseData);
             await requestEvent.respondWith(response);
-        
-          } catch {
-            const notFoundResponse = new Response("404 Not Found", { status: 404 });
-            await requestEvent.respondWith(notFoundResponse);
-            return;  
+
+          } else {
+            try {
+              const file = await Deno.open("." + filepath + ".html", { read: true });
+
+              const readableStream = readableStreamFromReader(file);
+
+              // Build and send the response
+              const response = new Response(readableStream);
+              await requestEvent.respondWith(response);
+          
+            } catch {
+              const notFoundResponse = new Response("404 Not Found", { status: 404 });
+              await requestEvent.respondWith(notFoundResponse);
+              return;  
+            }
           }
         }
       // }
