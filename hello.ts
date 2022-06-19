@@ -63,7 +63,7 @@ async function handleHttp(conn: Deno.Conn) {
             const account = db.collection<Account>("account");
             const all_users = await account.find({ name: { $ne: null } }).toArray();
   
-            const responseData = new Response(all_users, {
+            const responseData = new Response("{name: 'yoshiki'}", {
               status: 200,
               headers: {
                 "content-type": "application/json",
