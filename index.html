@@ -52,7 +52,7 @@
         </style>
         <script>
             window.onload = function() {
-                fetch("/get_account").then( (res) => {res.json()} ).then( (data) => {
+                fetch("/get_account").then( (res) => res.json() ).then( (data) => {
                     console.log(data);
                     const account = document.getElementById("account");
                     account.innerHTML = data.name;
